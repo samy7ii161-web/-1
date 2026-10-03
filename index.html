@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مدرسة متوسطة الزهور - لوحة التحكم والإدارة</title>
+    <!-- خط تجوال من خطوط جوجل -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <!-- أيقونات Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #1e3a8a;
+            --secondary-color: #059669;
+            --accent-color: #f59e0b;
+            --danger-color: #ef4444;
+            --bg-light: #f8fafc;
+            --text-dark: #1e293b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* شريط معلومات التواصل العلوي */
+        .top-bar {
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 0.85rem;
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .top-bar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .top-contact-info {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .top-contact-info a {
+            color: #e2e8f0;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s;
+        }
+
+        .top-contact-info a:hover {
+            color: var(--accent-color);
+        }
+
+        /* الهيدر وشريط التنقل */
+        header {
+            background-color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--primary-color);
+        }
+
+        .logo i {
+            color: var(--secondary-color);
+            font-size: 1.8rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 15px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 6px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            background-color: #e2e8f0;
+            color: var(--primary-color);
+        }
+
+        .btn-toggle-admin {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-toggle-admin:hover {
+            background-color: #d97706;
+        }
+
+        /* الحاوية العامة */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            width: 60px;
+            height: 4px;
+            background-color: var(--secondary-color);
+            display: block;
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, rgba(30, 58, 138, 0.9), rgba(5, 150, 105, 0.8)), 
+                        url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1200') center/cover;
+            color: white;
+            text-align: center;
+            padding: 80px 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .hero h1 { font-size: 2.8rem; margin-bottom: 15px; }
+        .hero p { font-size: 1.2rem; opacity: 0.9; }
+
+        /* أشرطة البحث */
+        .search-box {
+            max-width: 400px;
+            margin: 0 auto 20px auto;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 9px 38px 9px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        .search-box i {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+        }
+
+        /* الشبكات الكروت */
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            position: relative;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .card-icon {
+            width: 45px;
+            height: 45px;
+            background-color: #e0e7ff;
+            color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .card-sub {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .card-actions {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            display: flex;
+            gap: 6px;
+        }
+
+        .btn-action {
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: white;
+            transition: opacity 0.2s;
+        }
+
+        .btn-action:hover { opacity: 0.85; }
+        .btn-delete { background-color: var(--danger-color); }
+        .btn-edit { background-color: var(--accent-color); }
+
+        /* كروت الأخبار */
+        .news-img {
+            height: 160px;
+            width: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .news-date {
+            font-size: 0.85rem;
+            color: var(--accent-color);
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        /* لوحة التحكم (Admin Panel) */
+        #admin-section {
+            display: none;
+            background: #ffffff;
+            border: 2px dashed var(--accent-color);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 40px;
+        }
+
+        .admin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .admin-box {
+            background: #f1f5f9;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .admin-box h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 9px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-family: inherit;
+        }
+
+        .btn-add {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 9px 18px;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.3s;
+        }
+
+        .btn-add:hover {
+            background-color: #047857;
+        }
+
+        /* الفوتر */
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 30px 20px;
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .footer-contacts {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .footer-contacts a {
+            color: #f1f5f9;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        .footer-contacts a:hover {
+            color: var(--accent-color);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- شريط معلومات التواصل العلوي -->
+    <div class="top-bar">
+        <div class="top-bar-container">
+            <div>
+                <i class="fa-solid fa-school"></i> مرحباً بكم في الموقع الرسمي لـ مدرسة متوسطة الزهور
+            </div>
+            <div class="top-contact-info">
+                <a href="tel:+9660561583400"><i class="fa-solid fa-phone"></i> 0561583400</a>
+                <a href="mailto:samy7ii161@gmail.com"><i class="fa-solid fa-envelope"></i> samy7ii161@gmail.com</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- الهيدر -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <i class="fa-solid fa-seedling"></i>
+                <span>مدرسة متوسطة الزهور</span>
+            </div>
+            <ul class="nav-links">
+                <li><a onclick="scrollToSection('hero-sec')">الرئيسية</a></li>
+                <li><a onclick="scrollToSection('students-sec')">مؤوسس الموقع</a></li>
+                <li><a onclick="scrollToSection('teachers-sec')">المعلمون</a></li>
+                <li><a onclick="scrollToSection('news-sec')">الأخبار والفعاليات</a></li>
+            </ul>
+            <button class="btn-toggle-admin" onclick="toggleAdminPanel()">
+                <i class="fa-solid fa-sliders"></i> لوحة التحكم والتعديل
+            </button>
+        </nav>
+    </header>
+
+    <div class="container">
+
+        <!-- لوحة التعديل والتحكم -->
+        <section id="admin-section">
+            <h2 class="section-title"><i class="fa-solid fa-gear"></i> لوحة إدارة وتعديل المحتوى</h2>
+            
+            <div class="admin-grid">
+
+                <!-- إضافة / تعديل طالب -->
+                <div class="admin-box">
+                    <h3 id="std-form-title"><i class="fa-solid fa-user-plus"></i> إضافة طالب جديد</h3>
+                    <form id="student-form" onsubmit="saveStudent(event)">
+                        <input type="hidden" id="std-id">
+                        <div class="form-group">
+                            <label>اسم الطالب:</label>
+                            <input type="text" id="std-name" placeholder="مثال: محمد أحمد" required>
+                        </div>
+                        <div class="form-group">
+                            <label>الصف / الفصل:</label>
+                            <input type="text" id="std-class" placeholder="مثال: ثاني متوسط (أ)" required>
+                        </div>
+                        <div class="form-group">
+                            <label>الهواية / الملاحظة:</label>
+                            <input type="text" id="std-note" placeholder="مثال: البرمجة والرياضيات">
+                        </div>
+                        <button type="submit" id="std-btn-submit" class="btn-add"><i class="fa-solid fa-plus"></i> حفظ الطالب</button>
+                    </form>
+                </div>
+
+                <!-- إضافة / تعديل معلم -->
+                <div class="admin-box">
+                    <h3 id="tch-form-title"><i class="fa-solid fa-chalkboard-user"></i> إضافة معلم جديد</h3>
+                    <form id="teacher-form" onsubmit="saveTeacher(event)">
+                        <input type="hidden" id="tch-id">
+                        <div class="form-group">
+                            <label>اسم المعلم:</label>
+                            <input type="text" id="tch-name" placeholder="مثال: أ. عبد الله الغامدي" required>
+                        </div>
+                        <div class="form-group">
+                            <label>المادة الدراسية:</label>
+                            <input type="text" id="tch-subject" placeholder="مثال: مادة العلوم" required>
+                        </div>
+                        <button type="submit" id="tch-btn-submit" class="btn-add"><i class="fa-solid fa-plus"></i> حفظ المعلم</button>
+                    </form>
+                </div>
+
+                <!-- إضافة / تعديل خبر أو فعالية -->
+                <div class="admin-box">
+                    <h3 id="news-form-title"><i class="fa-solid fa-newspaper"></i> إضافة خبر / فعالية</h3>
+                    <form id="news-form" onsubmit="saveNews(event)">
+                        <input type="hidden" id="news-id">
+                        <div class="form-group">
+                            <label>عنوان الخبر:</label>
+                            <input type="text" id="news-title" placeholder="عنوان الخبر أو النشاط" required>
+                        </div>
+                        <div class="form-group">
+                            <label>التاريخ:</label>
+                            <input type="text" id="news-date" placeholder="مثال: 15 أكتوبر 2026" required>
+                        </div>
+                        <div class="form-group">
+                            <label>الوصف والتفاصيل:</label>
+                            <textarea id="news-desc" rows="2" placeholder="تفاصيل الخبر..." required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>رابط الصورة (اختياري):</label>
+                            <input type="url" id="news-img" placeholder="https://example.com/image.jpg">
+                        </div>
+                        <button type="submit" id="news-btn-submit" class="btn-add"><i class="fa-solid fa-plus"></i> نشر الخبر</button>
+                    </form>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- الهيرو الترحيبي -->
+        <section class="hero" id="hero-sec">
+            <h1>أهلاً بكم في مدرسة متوسطة الزهور</h1>
+            <p>منصة تفاعلية لاستعراض طاقم المعلمين، وأحدث الفعاليات والأنشطة المدرسية.</p>
+        </section>
+
+        <!-- قسم مؤوسس الموقع -->
+        <section id="students-sec" style="margin-bottom: 50px;">
+            <h2 class="section-title">مؤوسس الموقع</h2>
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="std-search" oninput="renderStudents()" placeholder="ابحث باسم الطالب أو الصف...">
+            </div>
+            <div class="grid-cards" id="students-container"></div>
+        </section>
+
+        <!-- قسم المعلمين -->
+        <section id="teachers-sec" style="margin-bottom: 50px;">
+            <h2 class="section-title">طاقم المعلمين</h2>
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="tch-search" oninput="renderTeachers()" placeholder="ابحث باسم المعلم أو المادة...">
+            </div>
+            <div class="grid-cards" id="teachers-container"></div>
+        </section>
+
+        <!-- قسم الأخبار والفعاليات -->
+        <section id="news-sec" style="margin-bottom: 50px;">
+            <h2 class="section-title">الأخبار والفعاليات</h2>
+            <div class="grid-cards" id="news-container"></div>
+        </section>
+
+    </div>
+
+    <!-- الفوتر مع تفاصيل التواصل -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-contacts">
+                <a href="tel:+9660561583400"><i class="fa-solid fa-phone" style="color: var(--accent-color);"></i> هاتف المدرسة:0561583400</a>
+                <a href="mailto:samy7ii161@gmail.com"><i class="fa-solid fa-envelope" style="color: var(--accent-color);"></i> البريد الإلكتروني: samy7ii161@gmail.com</a>
+            </div>
+            <p>&copy; 2026 جميع الحقوق محفوظة - مدرسة متوسطة الزهور</p>
+        </div>
+    </footer>
+
+    <!-- البرمجة والمنطق التفاعلي -->
+    <script>
+        const ADMIN_PASSWORD = "1234";
+        let isAdminLoggedIn = false;
+
+        const defaultStudents = [
+            { id: 1, name: "علي الشمري", class: "ثاني متوسط (أ)", note: "متفوق في الرياضيات" },
+            { id: 2, name: "عمر خالد", class: "ثاني متوسط (أ)", note: "قائد النشاط الرياضي" }
+        ];
+
+        const defaultTeachers = [
+            { id: 1, name: "أ. سعد القحطاني", subject: "معلم العلوم" },
+            { id: 2, name: "أ. فهد الدوسري", subject: "معلم اللغة العربية" }
+        ];
+
+        const defaultNews = [
+            { 
+                id: 1, 
+                title: "تكريم الطلاب المتفوقين", 
+                date: "15 أكتوبر 2026", 
+                desc: "أقامت إدارة المدرسة حفل تكريم لمؤوسس الموقع المتميزين.",
+                img: "https://images.unsplash.com/photo-1577896851231-70ef18881754?q=80&w=600"
+            }
+        ];
+
+        let students = JSON.parse(localStorage.getItem('alzahoor_students')) || defaultStudents;
+        let teachers = JSON.parse(localStorage.getItem('alzahoor_teachers')) || defaultTeachers;
+        let news = JSON.parse(localStorage.getItem('alzahoor_news')) || defaultNews;
+
+        function toggleAdminPanel() {
+            const adminSec = document.getElementById('admin-section');
+            if (adminSec.style.display === 'block') {
+                adminSec.style.display = 'none';
+            } else {
+                if (!isAdminLoggedIn) {
+                    const pass = prompt("الرجاء إدخال كلمة مرور لوحة التحكم:");
+                    if (pass !== ADMIN_PASSWORD) {
+                        alert("كلمة المرور غير صحيحة!");
+                        return;
+                    }
+                    isAdminLoggedIn = true;
+                }
+                adminSec.style.display = 'block';
+                adminSec.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        /* الطلاب */
+        function renderStudents() {
+            const container = document.getElementById('students-container');
+            const query = document.getElementById('std-search')?.value.toLowerCase() || '';
+            container.innerHTML = '';
+
+            const filtered = students.filter(s => s.name.toLowerCase().includes(query) || s.class.toLowerCase().includes(query));
+
+            filtered.forEach((std) => {
+                container.innerHTML += `
+                    <div class="card">
+                        <div class="card-actions">
+                            <button class="btn-action btn-edit" onclick="prepareEditStudent(${std.id})" title="تعديل"><i class="fa-solid fa-pen"></i></button>
+                            <button class="btn-action btn-delete" onclick="deleteStudent(${std.id})" title="حذف"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                        <div class="card-header">
+                            <div class="card-icon"><i class="fa-solid fa-user-graduate"></i></div>
+                            <div>
+                                <div class="card-title">${std.name}</div>
+                                <div class="card-sub">${std.class}</div>
+                            </div>
+                        </div>
+                        <p style="font-size: 0.9rem; color: #475569;">${std.note || ''}</p>
+                    </div>
+                `;
+            });
+        }
+
+        function saveStudent(e) {
+            e.preventDefault();
+            const id = document.getElementById('std-id').value;
+            const name = document.getElementById('std-name').value;
+            const className = document.getElementById('std-class').value;
+            const note = document.getElementById('std-note').value;
+
+            if (id) {
+                const index = students.findIndex(s => s.id == id);
+                if (index !== -1) {
+                    students[index] = { id: Number(id), name, class: className, note };
+                }
+            } else {
+                students.push({ id: Date.now(), name, class: className, note });
+            }
+
+            localStorage.setItem('alzahoor_students', JSON.stringify(students));
+            renderStudents();
+            resetStudentForm();
+        }
+
+        function prepareEditStudent(id) {
+            const std = students.find(s => s.id === id);
+            if (!std) return;
+            document.getElementById('std-id').value = std.id;
+            document.getElementById('std-name').value = std.name;
+            document.getElementById('std-class').value = std.class;
+            document.getElementById('std-note').value = std.note || '';
+            document.getElementById('std-form-title').innerHTML = `<i class="fa-solid fa-user-pen"></i> تعديل بيانات الطالب`;
+            document.getElementById('std-btn-submit').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> حفظ التعديلات`;
+            
+            if (document.getElementById('admin-section').style.display !== 'block') {
+                toggleAdminPanel();
+            } else {
+                document.getElementById('admin-section').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function resetStudentForm() {
+            document.getElementById('student-form').reset();
+            document.getElementById('std-id').value = '';
+            document.getElementById('std-form-title').innerHTML = `<i class="fa-solid fa-user-plus"></i> إضافة طالب جديد`;
+            document.getElementById('std-btn-submit').innerHTML = `<i class="fa-solid fa-plus"></i> حفظ الطالب`;
+        }
+
+        function deleteStudent(id) {
+            if (confirm("هل أنت تأكد من حذف هذا الطالب؟")) {
+                students = students.filter(s => s.id !== id);
+                localStorage.setItem('alzahoor_students', JSON.stringify(students));
+                renderStudents();
+            }
+        }
+
+        /* المعلمون */
+        function renderTeachers() {
+            const container = document.getElementById('teachers-container');
+            const query = document.getElementById('tch-search')?.value.toLowerCase() || '';
+            container.innerHTML = '';
+
+            const filtered = teachers.filter(t => t.name.toLowerCase().includes(query) || t.subject.toLowerCase().includes(query));
+
+            filtered.forEach((tch) => {
+                container.innerHTML += `
+                    <div class="card">
+                        <div class="card-actions">
+                            <button class="btn-action btn-edit" onclick="prepareEditTeacher(${tch.id})" title="تعديل"><i class="fa-solid fa-pen"></i></button>
+                            <button class="btn-action btn-delete" onclick="deleteTeacher(${tch.id})" title="حذف"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                        <div class="card-header">
+                            <div class="card-icon" style="background-color: #d1fae5; color: var(--secondary-color);"><i class="fa-solid fa-chalkboard-user"></i></div>
+                            <div>
+                                <div class="card-title">${tch.name}</div>
+                                <div class="card-sub">${tch.subject}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function saveTeacher(e) {
+            e.preventDefault();
+            const id = document.getElementById('tch-id').value;
+            const name = document.getElementById('tch-name').value;
+            const subject = document.getElementById('tch-subject').value;
+
+            if (id) {
+                const index = teachers.findIndex(t => t.id == id);
+                if (index !== -1) {
+                    teachers[index] = { id: Number(id), name, subject };
+                }
+            } else {
+                teachers.push({ id: Date.now(), name, subject });
+            }
+
+            localStorage.setItem('alzahoor_teachers', JSON.stringify(teachers));
+            renderTeachers();
+            resetTeacherForm();
+        }
+
+        function prepareEditTeacher(id) {
+            const tch = teachers.find(t => t.id === id);
+            if (!tch) return;
+            document.getElementById('tch-id').value = tch.id;
+            document.getElementById('tch-name').value = tch.name;
+            document.getElementById('tch-subject').value = tch.subject;
+            document.getElementById('tch-form-title').innerHTML = `<i class="fa-solid fa-user-pen"></i> تعديل بيانات المعلم`;
+            document.getElementById('tch-btn-submit').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> حفظ التعديلات`;
+            
+            if (document.getElementById('admin-section').style.display !== 'block') {
+                toggleAdminPanel();
+            } else {
+                document.getElementById('admin-section').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function resetTeacherForm() {
+            document.getElementById('teacher-form').reset();
+            document.getElementById('tch-id').value = '';
+            document.getElementById('tch-form-title').innerHTML = `<i class="fa-solid fa-chalkboard-user"></i> إضافة معلم جديد`;
+            document.getElementById('tch-btn-submit').innerHTML = `<i class="fa-solid fa-plus"></i> حفظ المعلم`;
+        }
+
+        function deleteTeacher(id) {
+            if (confirm("هل أنت تأكد من حذف هذا المعلم؟")) {
+                teachers = teachers.filter(t => t.id !== id);
+                localStorage.setItem('alzahoor_teachers', JSON.stringify(teachers));
+                renderTeachers();
+            }
+        }
+
+        /* الأخبار */
+        function renderNews() {
+            const container = document.getElementById('news-container');
+            container.innerHTML = '';
+            news.forEach((item) => {
+                const imgTag = item.img ? `<img src="${item.img}" class="news-img" alt="صورة الخبر">` : '';
+                container.innerHTML += `
+                    <div class="card">
+                        <div class="card-actions">
+                            <button class="btn-action btn-edit" onclick="prepareEditNews(${item.id})" title="تعديل"><i class="fa-solid fa-pen"></i></button>
+                            <button class="btn-action btn-delete" onclick="deleteNews(${item.id})" title="حذف"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                        ${imgTag}
+                        <div class="news-date">${item.date}</div>
+                        <div class="card-title" style="margin-bottom: 8px;">${item.title}</div>
+                        <p style="font-size: 0.9rem; color: #475569;">${item.desc}</p>
+                    </div>
+                `;
+            });
+        }
+
+        function saveNews(e) {
+            e.preventDefault();
+            const id = document.getElementById('news-id').value;
+            const title = document.getElementById('news-title').value;
+            const date = document.getElementById('news-date').value;
+            const desc = document.getElementById('news-desc').value;
+            const img = document.getElementById('news-img').value || 'https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=600';
+
+            if (id) {
+                const index = news.findIndex(n => n.id == id);
+                if (index !== -1) {
+                    news[index] = { id: Number(id), title, date, desc, img };
+                }
+            } else {
+                news.push({ id: Date.now(), title, date, desc, img });
+            }
+
+            localStorage.setItem('alzahoor_news', JSON.stringify(news));
+            renderNews();
+            resetNewsForm();
+        }
+
+        function prepareEditNews(id) {
+            const item = news.find(n => n.id === id);
+            if (!item) return;
+            document.getElementById('news-id').value = item.id;
+            document.getElementById('news-title').value = item.title;
+            document.getElementById('news-date').value = item.date;
+            document.getElementById('news-desc').value = item.desc;
+            document.getElementById('news-img').value = item.img || '';
+            document.getElementById('news-form-title').innerHTML = `<i class="fa-solid fa-pen-to-square"></i> تعديل الخبر`;
+            document.getElementById('news-btn-submit').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> حفظ التعديلات`;
+            
+            if (document.getElementById('admin-section').style.display !== 'block') {
+                toggleAdminPanel();
+            } else {
+                document.getElementById('admin-section').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function resetNewsForm() {
+            document.getElementById('news-form').reset();
+            document.getElementById('news-id').value = '';
+            document.getElementById('news-form-title').innerHTML = `<i class="fa-solid fa-newspaper"></i> إضافة خبر / فعالية`;
+            document.getElementById('news-btn-submit').innerHTML = `<i class="fa-solid fa-plus"></i> نشر الخبر`;
+        }
+
+        function deleteNews(id) {
+            if (confirm("هل أنت تأكد من حذف هذا الخبر؟")) {
+                news = news.filter(n => n.id !== id);
+                localStorage.setItem('alzahoor_news', JSON.stringify(news));
+                renderNews();
+            }
+        }
+
+        // العرض الأولي
+        renderStudents();
+        renderTeachers();
+        renderNews();
+    </script>
+</body>
+</html>
